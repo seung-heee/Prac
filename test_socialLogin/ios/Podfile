@@ -52,4 +52,5 @@ target 'test_socialLogin' do
       :mac_catalyst_enabled => false
     )
   end
+pod 'KakaoOpenSDK'
 end
