@@ -1,3 +1,5 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
 # Resolve react_native_pods.rb with node to allow for hoisting
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
@@ -5,7 +7,8 @@ require Pod::Executable.execute_command('node', ['-p',
     {paths: [process.argv[1]]},
   )', __dir__]).strip
 
-platform :ios, min_ios_version_supported
+platform :ios, '13.0'
+# platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
 # If you are using a `react-native-flipper` your iOS build will fail when `NO_FLIPPER=1` is set.
@@ -22,7 +25,7 @@ flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : Flip
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
-  use_frameworks! :linkage => linkage.to_sym
+  # use_frameworks! :linkage => linkage.to_sym
 end
 
 target 'test_socialLogin' do
@@ -39,6 +42,10 @@ target 'test_socialLogin' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  # KakaoOpenSDK 추가
+  pod 'KakaoSDK'
+
+
   target 'test_socialLoginTests' do
     inherit! :complete
     # Pods for testing
@@ -52,5 +59,4 @@ target 'test_socialLogin' do
       :mac_catalyst_enabled => false
     )
   end
-pod 'KakaoOpenSDK'
 end
