@@ -1,10 +1,11 @@
 #import "AppDelegate.h"
-
+// #import <Firebase.h>// Firebase 헤더 파일 가져오기
 #import <React/RCTBundleURLProvider.h>
 #import <RNKakaoLogins.h>
 
 @implementation AppDelegate
 
+// 카카오 관련 코드
 - (BOOL)application:(UIApplication *)app
      openURL:(NSURL *)url
      options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
@@ -21,6 +22,7 @@
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
+  // [FIRApp configure];
 
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }

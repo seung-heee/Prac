@@ -10,6 +10,7 @@ const Intro = () => {
     try {
       const token = await login();
       setResult(JSON.stringify(token));
+      console.log('토큰', JSON.stringify(token.accessToken))
     } catch (err) {
       console.error('login err', err);
     }
@@ -18,7 +19,6 @@ const Intro = () => {
   const signOutWithKakao = async (): Promise<void> => {
     try {
       const message = await logout();
-
       setResult(message);
     } catch (err) {
       console.error('signOut error', err);
@@ -28,8 +28,11 @@ const Intro = () => {
   const getProfile = async (): Promise<void> => {
     try {
       const profile = await getKakaoProfile();
-
       setResult(JSON.stringify(profile));
+
+      const userInfoData = JSON.parse(JSON.stringify(profile));
+      const { email, id } = userInfoData;
+      console.log(email, id)
     } catch (err) {
       console.error('signOut error', err);
     }

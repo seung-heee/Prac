@@ -27,7 +27,8 @@ end
 
 target 'native01' do
   config = use_native_modules!
-  pod 'KakaoSDK'
+  # 카카오 sdk 설정
+  pod 'KakaoSDK' 
   use_react_native!(
     :path => config[:reactNativePath],
     # Enables Flipper.
