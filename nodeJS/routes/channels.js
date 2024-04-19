@@ -1,16 +1,15 @@
 // express 모듈 셋팅
 const express = require('express')
-const app = express()
-app.listen(7777)
-app.use(express.json()) // http 외 모듈 'json' 사용
+const router = express.Router()
+router.use(express.json()) // http 외 모듈 'json' 사용
 
 // db
 let db = new Map()
 var id = 1 // 하나의 객체를 유니크하게 구별하기 위함.
 
 // 채널 전체 조회
-app
-  .route('/channels')
+router
+  .route('/')
   // 채널 전체 조회
   .get((req, res) => {
     if (db.size) {
@@ -41,8 +40,8 @@ app
     }
   })
 
-app
-  .route('/channels/:id')
+router
+  .route('/:id')
   // 채널 개별 조회
   .get((req, res) => {
     const id = parseInt(req.params.id)
@@ -93,3 +92,5 @@ app
       })
     }
   })
+
+module.exports = router

@@ -1,8 +1,7 @@
 // express 모듈 셋팅
 const express = require('express')
-const app = express()
-app.listen(7777)
-app.use(express.json()) // http 외 모듈 'json' 사용
+const router = express.Router()
+router.use(express.json()) // http 외 모듈 'json' 사용
 
 // db
 let db = new Map()
@@ -18,7 +17,7 @@ function isExisted(obj) {
 }
 
 // 로그인
-app.post('/signin', (req, res) => {
+router.post('/signin', (req, res) => {
   var loginUser = {}
   const { userId, password } = req.body
 
@@ -43,7 +42,7 @@ app.post('/signin', (req, res) => {
 })
 
 // 회원가입
-app.post('/signup', (req, res) => {
+router.post('/signup', (req, res) => {
   if (req.body == {}) {
     res.status(400).json({
       message: '입력 값을 다시 확인해주세요.'
@@ -58,7 +57,7 @@ app.post('/signup', (req, res) => {
 })
 
 // 회원 개별 조회
-app
+router
   .route('/users/:id')
   .get((req, res) => {
   const id = parseInt(req.params.id)
@@ -90,3 +89,5 @@ app
       })
     }
   })
+
+module.exports = router
