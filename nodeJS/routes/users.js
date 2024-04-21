@@ -2,6 +2,23 @@
 const express = require('express')
 const router = express.Router()
 router.use(express.json()) // http 외 모듈 'json' 사용
+const conn = require('../mysql')
+
+// Using placeholders
+// conn.query(
+//   'SELECT * FROM `users`',
+//   function (err, results, fields) {
+//     console.log(results);
+//     results.map((item)=>{
+//       console.log('item')
+
+//       // console.log('key : ', item.i)
+//       // console.log('title : ', item.title)
+//       // console.log('sub_title : ', item.sub_title)
+//       // console.log('img : ', item.img)
+//     })
+//   }
+// );
 
 // db
 let db = new Map()
@@ -32,12 +49,18 @@ router.post('/signin', (req, res) => {
   if(isExisted(loginUser)) {
     // pwd도 맞는지 비교
     if (loginUser.password === password) {
-      console.log('비번도 같아')
+      res.status(200).json({
+        message: `${loginUser.name}님 로그인 되었습니다.`
+      })
     } else {
-      console.log('틀렸다.')
+      res.status(400).json({
+        message: `비밀번호가 틀렸습니다.`
+      })
     }
   } else {
-    console.log('없는 아이디입니다.') 
+    res.status(404).json({
+      message: "회원 정보가 없습니다."
+    })
   }
 })
 
@@ -48,44 +71,52 @@ router.post('/signup', (req, res) => {
       message: '입력 값을 다시 확인해주세요.'
     })
   } else {
-    db.set(id++, req.body)
+    const userId = req.body.userId
+    db.set(userId, req.body)
 
     res.status(201).json({
-      message: `${db.get(id-1).name}님 환영합니다.`
+      message: `${db.get(userId).name}님 환영합니다.`
     })
   }
 })
 
 // 회원 개별 조회
 router
-  .route('/users/:id')
+  .route('/users')
   .get((req, res) => {
-  const id = parseInt(req.params.id)
-  const user = db.get(id)
+  let {email} = req.body
+  // const id = parseInt(req.params.id)
+  // const user = db.get(userId)
 
-  if (user == undefined) {
-    res.status(404).json({
-      message: "회원 정보가 없습니다."
-    })
-  } else {
-    res.status(200).json({
-      userId: user.userId,
-      name: user.name,
-    })
+  console.log(email)
+  conn.query(
+    `SELECT * FROM user Where email = ?`, email,
+    function (err, results, fields) {
+      // if (results.length)
+        res.status(200).json(results)
+        console.log(results)
+      // else {
+      //   res.status(404).json({
+      //     message: "회원 정보가 없습니다."
+      //   })
+      // }
     }
+  );
   })
   .delete((req, res) => {
-    const id = parseInt(req.params.id)
-    const user = db.get(id)
+    let { userId } = req.body
+    // const id = parseInt(req.params.id)
+    const user = db.get(userId)
 
-    if (user == undefined) {
-      res.status(404).json({
-        message: "회원 정보가 없습니다."
-      })
-    } else {
-      db.delete(id)
+    if (user) {
+      db.delete(userId)
+      
       res.status(200).json({
         message: `${user.name}님, 다음에 또 뵙겠습니다.`
+      })
+    } else {
+      res.status(404).json({
+        message: "회원 정보가 없습니다."
       })
     }
   })

@@ -6,11 +6,18 @@ let gender : string = 'female';
 let course : string = 'TypeScript';
 let completed : boolean = false;
 
-interface Student { // 인터페이스
+// 열거형 : 사용자 정의 타입
+enum GenderType {
+  Male,
+  Female
+}
+
+// 인터페이스
+interface Student { 
   stdId : number;
   stdName? : string; // ? : 선택적 프로퍼티
   age? : number;
-  gender? : string; 
+  gender? : GenderType;
   course? : string;
   completed? : boolean;
   setName : (name : string) => void; // 메서드 선언
@@ -20,7 +27,7 @@ class MyStudent implements Student { // student의 인터페이스를 상속하�
   stdId = 1192;
   stdName = 'heee';
   age = 24;
-  gender = '여';
+  gender = GenderType.Male;
   course = 'javascript';
   completed = false;
   // 오버라이딩 해줘야함.
@@ -39,7 +46,7 @@ function getInfo(id : number) : Student {
     stdId : id,
     stdName : 'seunghee',
     // age : 22,
-    gender : '여',
+    gender : GenderType.Male,
     course : 'TypeScript',
     completed : false,
   }
@@ -54,7 +61,7 @@ let std = {
   stdId : 1192,
   stdName : 'heee',
   age : 24,
-  gender : '여',
+  gender : GenderType.Male,
   course : 'javascript',
   completed : false,
 }

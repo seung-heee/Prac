@@ -5,12 +5,18 @@ var age = 24;
 var gender = 'female';
 var course = 'TypeScript';
 var completed = false;
+// 열거형 : 사용자 정의 타입
+var GenderType;
+(function (GenderType) {
+    GenderType[GenderType["Male"] = 0] = "Male";
+    GenderType[GenderType["Female"] = 1] = "Female";
+})(GenderType || (GenderType = {}));
 var MyStudent = /** @class */ (function () {
     function MyStudent() {
         this.stdId = 1192;
         this.stdName = 'heee';
         this.age = 24;
-        this.gender = '여';
+        this.gender = GenderType.Male;
         this.course = 'javascript';
         this.completed = false;
     }
@@ -29,7 +35,7 @@ function getInfo(id) {
         stdId: id,
         stdName: 'seunghee',
         // age : 22,
-        gender: '여',
+        gender: GenderType.Male,
         course: 'TypeScript',
         completed: false,
     };
@@ -43,7 +49,7 @@ var std = {
     stdId: 1192,
     stdName: 'heee',
     age: 24,
-    gender: '여',
+    gender: GenderType.Male,
     course: 'javascript',
     completed: false,
 };
